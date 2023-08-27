@@ -1,0 +1,32 @@
+.daily-expense-form {
+  max-width: 30rem;
+  margin: 2rem auto;
+  padding: 1rem 2rem;
+  background-color: white;
+  border-radius: 10px;
+  
+}
+
+.daily-expense-form h3{
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-size: 1.1rem;
+  font-weight: 400;
+  font-style: oblique;
+}
+
+.daily-expense-form button {
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+
+

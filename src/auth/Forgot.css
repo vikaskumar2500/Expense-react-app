@@ -1,0 +1,35 @@
+.forgot-form {
+  max-width: 30rem;
+  margin: 2rem auto;
+  border: 2px solid rgb(145, 130, 130);
+  padding: 2rem;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.forgot-form button{
+  margin-left: 8rem;
+  margin-top: 2rem;
+}
+
+.forgot-form h3 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.cancel-button {
+  border: none;
+  position: absolute;
+  margin-left: 24rem !important;
+  margin-top: -4rem !important;
+  text-align: end;
+  z-index: 1;
+  background: none;
+}
+
+.cancel-button:hover {
+  background-color: rgb(232, 240, 241) !important;
+  border-radius: 10px;
+  padding: 5px 15px;
+
+}
