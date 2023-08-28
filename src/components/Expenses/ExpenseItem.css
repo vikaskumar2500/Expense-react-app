@@ -5,3 +5,12 @@
 .price {
   font-weight: 600;
 }
+
+.edit-button {
+  width: 4rem;
+  
+}
+
+.delete-button {
+  width: 4rem;
+}

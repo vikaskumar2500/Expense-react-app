@@ -1,12 +1,14 @@
 import React from "react";
 import "./Expenses.css";
 import ExpenseList from "./ExpenseList";
+import ExpenseForm from "../Form/ExpenseForm";
 
 const Expenses = () => {
   return (
-    <React.Fragment>
+    <div className="expenses">
+      <ExpenseForm/>
       <ExpenseList />
-    </React.Fragment>
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Button, Form, FormGroup, FormLabel } from "react-bootstrap";
 import "./ExpenseForm.css";
 import { UserAuth } from "../../store/AuthContext";
@@ -9,13 +9,22 @@ const ExpenseForm = () => {
   const descriptionInputRef = useRef();
   const categoryInputRef = useRef();
 
-  const { addExpense } = UserAuth();
+  const { addExpense, editExpense } = UserAuth();
+
+  useEffect(() => {
+    // console.log(editExpense);
+    if (editExpense) {
+      moneyInputRef.current.value = +editExpense.price;
+      descriptionInputRef.current.value = editExpense.desc;
+      categoryInputRef.current.value = editExpense.category;
+    }
+  }, [editExpense]);
 
   const formSubmitHandler = async (event) => {
     event.preventDefault();
     const expense = {
       id: uuidv4(),
-      price: moneyInputRef.current.value,
+      price: +moneyInputRef.current.value,
       desc: descriptionInputRef.current.value,
       category: categoryInputRef.current.value,
     };
@@ -33,12 +42,13 @@ const ExpenseForm = () => {
       );
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
-      console.log(data);
+      // console.log(data);
 
       moneyInputRef.current.value = "";
       descriptionInputRef.current.value = "";
-      categoryInputRef.current.value = "";
+      categoryInputRef.current.value = "default";
     } catch (error) {
+      console.log(error.message);
       alert(error.message);
     }
   };
@@ -54,12 +64,18 @@ const ExpenseForm = () => {
           min={1}
           step={1}
           ref={moneyInputRef}
+          required
         />
       </FormGroup>
 
       <FormGroup className="form-group">
         <FormLabel htmlFor="description">Description</FormLabel>
-        <Form.Control type="text" id="description" ref={descriptionInputRef} />
+        <Form.Control
+          type="text"
+          id="description"
+          ref={descriptionInputRef}
+          required
+        />
       </FormGroup>
       <FormGroup className="form-group">
         <FormLabel htmlFor="category">Category</FormLabel>
@@ -67,11 +83,13 @@ const ExpenseForm = () => {
           aria-label="Default select"
           id="category"
           ref={categoryInputRef}
+          required
         >
-          <option>Select categories</option>
+          <option value="default">Select categories</option>
           <option value="food">Food</option>
           <option value="petrol">Petrol</option>
           <option value="salary">Salary</option>
+          <option value="clothes">Clothes</option>
         </Form.Select>
       </FormGroup>
 

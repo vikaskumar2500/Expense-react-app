@@ -10,7 +10,6 @@ import Login from "./auth/Login";
 import VerificationPending from "./auth/VerificationPending";
 import Forgot from "./auth/Forgot";
 import { UserAuth } from "./store/AuthContext";
-import ExpenseForm from "./components/Form/ExpenseForm";
 import Expenses from "./components/Expenses/Expenses";
 
 const App = () => {
@@ -31,7 +30,6 @@ const App = () => {
         </Route>
 
         <Route path={`/daily-expenses-form`} exact>
-          <ExpenseForm />
           <Expenses/>
         </Route>
 

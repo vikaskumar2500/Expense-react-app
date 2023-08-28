@@ -1,9 +1,20 @@
 .expense-container {
-  max-width: 30rem;
+  max-width: 40rem;
   background-color: white;
   border-radius: 10px;
   padding: 1rem 2rem;
   margin-bottom: 2rem;
+  margin-top: 2rem;
+  
+}
+
+.table-head {
+  overflow-y: scroll;
+  height: 19rem;
+}
+
+.table-head::-webkit-scrollbar {
+  overflow: hidden;
 }
 
 .expenses-title {
@@ -11,8 +22,29 @@
   font-weight: 600;
 }
 
-.expense-container h2 {
+.expense-container h3 {
   text-align: center;
   margin-bottom: 2rem;
 }
 
+.buttons {
+  text-align: center;
+}
+
+.titleHead {
+  border: 1px solid red;
+} 
+
+.total-price {
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: flex-end;
+  /* border: 2px solid red; */
+  align-items: flex-end;
+  font-weight: 700;
+  margin-right: 2rem;
+}
+
+.total-price .money {
+  margin-left: 3rem !important;
+}

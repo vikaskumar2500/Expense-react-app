@@ -8,20 +8,30 @@ export const AuthContext = React.createContext({
   login: null,
   onLogin: () => {},
   expenses: {},
+  totalPrice: 0,
   addExpense: () => {},
   deleteExpense: () => {},
+  editExpense: {},
+  onEditExpense: () => {},
 });
 
 const defaultExpense = {
-  expenses:[],
+  expenses: [],
+  totalPrice:0,
 };
 
 const expenseReducer = (state, action) => {
   if (action.type === "ADD") {
     return {
-      expenses:[action.expense, ...state.expenses],
-    }
+      expenses: [action.expense, ...state.expenses],
+      totalPrice: state.totalPrice + +action.expense.price,
+    };
   } else if (action.type === "DELETE") {
+    const targetExpense = state.expenses.find(expense=> expense.id===action.id);
+    return {
+      expenses: state.expenses.filter((expense) => expense.id !== action.id),
+      totalPrice: +state.totalPrice - +targetExpense.price,
+    };
   } else return defaultExpense;
 };
 
@@ -33,6 +43,12 @@ export const AuthProvider = (props) => {
     expenseReducer,
     defaultExpense
   );
+  const [editExpense, setEditExpense] = useState({
+    price: "",
+    desc: "",
+    category: "default",
+  });
+
   const history = useHistory();
 
   useEffect(() => {
@@ -63,12 +79,13 @@ export const AuthProvider = (props) => {
         const data = await response.json();
         if (!response.ok) throw new Error(data.error);
         const keys = Object.keys(data);
-        console.log(data);
-        console.log(keys);
-        keys.forEach(key=> {
-          dispatchExpense({type:'ADD', expense:data[key]});
-        })
+
+        if (keys)
+          keys.forEach((key) => {
+            dispatchExpense({ type: "ADD", expense: data[key] });
+          });
       } catch (error) {
+        console.log(error.message);
         alert(error.message);
       }
     };
@@ -86,7 +103,11 @@ export const AuthProvider = (props) => {
   const defaultExpenseHandler = (id) => {
     dispatchExpense({ type: "DELETE", id: id });
   };
-  console.log(expenseState.expenses);
+
+  const editExpenseHandler = (expense) => {
+    setEditExpense({ ...expense });
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -94,8 +115,11 @@ export const AuthProvider = (props) => {
         login: login,
         onLogin: onLoginHandler,
         expenses: expenseState.expenses,
+        totalPrice: expenseState.totalPrice,
         addExpense: addExpenseHandler,
         deleteExpense: defaultExpenseHandler,
+        editExpense: editExpense,
+        onEditExpense: editExpenseHandler,
       }}
     >
       {props.children}
