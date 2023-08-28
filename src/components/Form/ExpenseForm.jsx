@@ -14,7 +14,7 @@ const ExpenseForm = () => {
   useEffect(() => {
     // console.log(editExpense);
     if (editExpense) {
-      moneyInputRef.current.value = +editExpense.price;
+      moneyInputRef.current.value = editExpense.price;
       descriptionInputRef.current.value = editExpense.desc;
       categoryInputRef.current.value = editExpense.category;
     }
