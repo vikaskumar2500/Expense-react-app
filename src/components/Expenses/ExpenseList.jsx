@@ -1,11 +1,10 @@
 import "./ExpenseList.css";
-import { UserAuth } from "../../store/AuthContext";
 import { Container, Table } from "react-bootstrap";
 import ExpenseItem from "./ExpenseItem";
+import { useSelector } from "react-redux";
 
 const ExpenseList = () => {
-  const { expenses, totalPrice } = UserAuth();
- 
+  const { expenses, totalPrice } = useSelector(state=> state.expense);
   return (
     <Container className="expense-container">
       <h3>Daily Expenses List</h3>

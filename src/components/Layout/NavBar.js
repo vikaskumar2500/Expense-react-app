@@ -3,18 +3,20 @@ import "./NavBar.css";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import { signOut } from "firebase/auth";
 import { auth } from "../../Firebase";
-import { UserAuth } from "../../store/AuthContext";
+import { authActions } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
 
 const NavBar = () => {
-  const { onLogin } = UserAuth();
   const history = useHistory();
+  const dispatch = useDispatch();
+  const totalPrice = useSelector(state=> state.expense.totalPrice);
 
   const logoutHandler = () => {
     signOut(auth)
       .then((credential) => {
         history.push("/signup");
         localStorage.removeItem(auth?.currentUser.email);
-        onLogin(false);
+        dispatch(authActions.logout());
       })
       .catch((error) => alert(error.message));
   };
@@ -27,7 +29,7 @@ const NavBar = () => {
         <Navbar.Collapse id="responsive-navbar-nav" className="nav-collapse">
           <Nav className="me-auto">
             <NavLink to={`/daily-expenses-form`}>Daily Expenses</NavLink>
-            <NavLink to="#features">Features</NavLink>
+            {totalPrice>=1000 && <NavLink to="/premium">Premium</NavLink>}
             <NavLink to="/profile">Profile</NavLink>
           </Nav>
           <Nav>

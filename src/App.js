@@ -1,5 +1,6 @@
 import { Redirect, BrowserRouter as Router } from "react-router-dom";
 import { Switch, Route } from "react-router-dom";
+import { useEffect } from "react";
 
 import "./App.css";
 import UpdateProfile from "./auth/Profile/UpdateProfile";
@@ -9,18 +10,45 @@ import Profile from "./auth/Profile/Profile";
 import Login from "./auth/Login";
 import VerificationPending from "./auth/VerificationPending";
 import Forgot from "./auth/Forgot";
-import { UserAuth } from "./store/AuthContext";
 import Expenses from "./components/Expenses/Expenses";
+import { useDispatch, useSelector } from "react-redux";
+import { expenseActions } from "./store/store";
 
 const App = () => {
-  const { login } = UserAuth();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const fetchedExpenses = async () => {
+      try {
+        const response = await fetch(
+          "https://expense8-react-default-rtdb.asia-southeast1.firebasedatabase.app/expenses.json"
+        );
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error);
+        const keys = Object.keys(data);
+        
+        if (keys) {
+          const expenseArr = [];
+          keys.forEach((key) => {
+            expenseArr.push(data[key]);
+          });
+          // addExpense by using redux.🤨
+          dispatch(expenseActions.addExpense(expenseArr));
+        }
+      } catch (error) {
+        console.log(error.message);
+        alert(error.message);
+      }
+    };
+    fetchedExpenses();
+  }, [dispatch]);
 
   return (
     <Router>
       <Header />
       <Switch>
         <Route path="/" exact>
-          <Login />
+          <Signup />
         </Route>
         <Route path="/login" exact>
           <Login />
@@ -30,16 +58,16 @@ const App = () => {
         </Route>
 
         <Route path={`/daily-expenses-form`} exact>
-          <Expenses/>
+          <Expenses />
         </Route>
 
-        {login && (
+        {isAuthenticated && (
           <Route path="/profile-completion" exact>
             <UpdateProfile />
           </Route>
         )}
 
-        {login && (
+        {isAuthenticated && (
           <Route path="/profile" exact>
             <Profile />
           </Route>

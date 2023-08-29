@@ -16,7 +16,8 @@ import { NavLink, useHistory } from "react-router-dom";
 
 import "./Login.css";
 import { auth } from "../Firebase";
-import { UserAuth } from "../store/AuthContext";
+import { authActions } from "../store/store";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,9 +25,11 @@ const Login = () => {
 
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
-  const { onLogin } = UserAuth();
 
   const history = useHistory();
+
+  // redux used.
+  const dispatch = useDispatch();
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -49,7 +52,8 @@ const Login = () => {
         console.log("login successfully!!");
 
         if (credential.user.emailVerified) {
-          onLogin(true);
+          dispatch(authActions.login());
+          // onLogin(true);
           history.push(`/daily-expenses-form`);
 
           // reset the values

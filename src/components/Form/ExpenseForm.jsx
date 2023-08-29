@@ -1,24 +1,28 @@
 import { useEffect, useRef } from "react";
 import { Button, Form, FormGroup, FormLabel } from "react-bootstrap";
 import "./ExpenseForm.css";
-import { UserAuth } from "../../store/AuthContext";
 import { v4 as uuidv4 } from "uuid";
+import { expenseActions } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
 
 const ExpenseForm = () => {
   const moneyInputRef = useRef();
   const descriptionInputRef = useRef();
   const categoryInputRef = useRef();
 
-  const { addExpense, editExpense } = UserAuth();
+  const edit =  useSelector((state) => state.expense.edit);
+  const dispatch = useDispatch();
+  
 
   useEffect(() => {
-    // console.log(editExpense);
-    if (editExpense) {
-      moneyInputRef.current.value = editExpense.price;
-      descriptionInputRef.current.value = editExpense.desc;
-      categoryInputRef.current.value = editExpense.category;
+    if (edit !==null || edit!==undefined) {
+      moneyInputRef.current.value = edit.price;
+      descriptionInputRef.current.value = edit.desc;
+      categoryInputRef.current.value = edit.category;
     }
-  }, [editExpense]);
+  }, [edit]);
+
+  
 
   const formSubmitHandler = async (event) => {
     event.preventDefault();
@@ -28,7 +32,9 @@ const ExpenseForm = () => {
       desc: descriptionInputRef.current.value,
       category: categoryInputRef.current.value,
     };
-    addExpense(expense);
+
+    // addExpense by using redux.🤨
+    dispatch(expenseActions.addExpense([expense]));
     try {
       const response = await fetch(
         "https://expense8-react-default-rtdb.asia-southeast1.firebasedatabase.app/expenses.json",

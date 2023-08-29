@@ -43,7 +43,6 @@ const Signup = () => {
         email,
         password
       );
-      console.log(userCredential);
       const actionCodeSettings = {
         url: "https://expense8-react.firebaseapp.com/email-verified",
         handleCodeInApp: true,

@@ -1,10 +1,11 @@
 import { Button } from "react-bootstrap";
 import "./ExpenseItem.css";
-import { UserAuth } from "../../store/AuthContext";
+import { useDispatch } from "react-redux";
+import { expenseActions } from "../../store/store";
 
 const ExpenseItem = (props) => {
   const { expense } = props;
-  const { onEditExpense, deleteExpense } = UserAuth();
+  const dispatch = useDispatch();
 
   const fetchedExpenses = async (id) => {
     try {
@@ -43,8 +44,12 @@ const ExpenseItem = (props) => {
   };
 
   const editButtonHandler = async (expense, id) => {
-    onEditExpense(expense);
-    deleteExpense(id);
+    // editExpense by redux.
+    dispatch(expenseActions.editExpense(expense));
+
+    // deleteExpense by redux.
+    dispatch(expenseActions.deleteExpense(id));
+
     const responseData = await fetchedExpenses(id);
     if(responseData) {
       const { targetKey } = responseData;
@@ -53,7 +58,9 @@ const ExpenseItem = (props) => {
   };
 
   const deleteButtonHandler = async (id) => {
-    deleteExpense(id);
+    // deleted by using redux.
+    dispatch(expenseActions.deleteExpense(id));
+
     const responseData = await fetchedExpenses(id);
     if(responseData) {
       const { targetKey } = responseData;
