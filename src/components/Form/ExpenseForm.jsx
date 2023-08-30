@@ -10,19 +10,16 @@ const ExpenseForm = () => {
   const descriptionInputRef = useRef();
   const categoryInputRef = useRef();
 
-  const edit =  useSelector((state) => state.expense.edit);
+  const edit = useSelector((state) => state.expense.edit);
   const dispatch = useDispatch();
-  
 
   useEffect(() => {
-    if (edit !==null || edit!==undefined) {
+    if (edit !== null || edit !== undefined) {
       moneyInputRef.current.value = edit.price;
       descriptionInputRef.current.value = edit.desc;
       categoryInputRef.current.value = edit.category;
     }
   }, [edit]);
-
-  
 
   const formSubmitHandler = async (event) => {
     event.preventDefault();
@@ -60,7 +57,10 @@ const ExpenseForm = () => {
   };
 
   return (
-    <Form className="daily-expense-form" onSubmit={formSubmitHandler}>
+    <Form
+      className="daily-expense-form bg-body-tertiary"
+      onSubmit={formSubmitHandler}
+    >
       <h3>Daily expenses</h3>
       <FormGroup className="form-group">
         <FormLabel htmlFor="spent-money">Spent money</FormLabel>

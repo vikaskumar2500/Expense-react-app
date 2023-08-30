@@ -1,16 +1,22 @@
-
-
+.navbar-container {
+  background-color: #e8e8e8 !important;
+}
+.container {
+  text-align: center;
+  align-items: center;
+}
 
 .brand {
   font-size: 2rem;
   font-weight: 700;
-  margin-left: -5rem;
   margin-right: 1rem;
+  padding: 0.2rem 0.8rem;
 }
 
 .logout {
   margin-left: 1rem;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  padding: 0.2rem 0.8rem;
 }
 
 .nav-collapse a {
@@ -25,4 +31,26 @@
 .nav-collapse a:active {
   color: brown;
   text-decoration: underline;
+}
+.premium-dropdown-content {
+  position: fixed;
+  flex-direction: column;
+  height: 10rem;
+  background-color: #e8e8e8;
+  width: 9.4rem;
+  border-radius: 10px;
+  margin-top: 0.9rem;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
+  width: 20%;
+  z-index: 1;
+}
+
+.premium-dropdown-content button {
+  font-size: 0.9rem;
+  padding: 0.4rem 0;
+  text-align: center;
+  align-items: center;
+  width: 60%;
+  margin: 0 1rem;
+  z-index: 1;
 }

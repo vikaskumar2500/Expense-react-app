@@ -16,6 +16,7 @@ import { expenseActions } from "./store/store";
 
 const App = () => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const themeNum = useSelector((state) => state.theme.colorNum);
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchedExpenses = async () => {
@@ -26,7 +27,7 @@ const App = () => {
         const data = await response.json();
         if (!response.ok) throw new Error(data.error);
         const keys = Object.keys(data);
-        
+
         if (keys) {
           const expenseArr = [];
           keys.forEach((key) => {
@@ -42,6 +43,10 @@ const App = () => {
     };
     fetchedExpenses();
   }, [dispatch]);
+
+  // vanilla javascript used for the theme.
+  const body = document.querySelector("body");
+  body.style.backgroundColor = `rgb(${themeNum}, ${themeNum}, ${themeNum})`;
 
   return (
     <Router>

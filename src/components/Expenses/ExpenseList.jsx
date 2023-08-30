@@ -4,13 +4,13 @@ import ExpenseItem from "./ExpenseItem";
 import { useSelector } from "react-redux";
 
 const ExpenseList = () => {
-  const { expenses, totalPrice } = useSelector(state=> state.expense);
+  const { expenses, totalPrice } = useSelector((state) => state.expense);
   return (
-    <Container className="expense-container">
+    <Container className="expense-container bg-body-tertiary">
       <h3>Daily Expenses List</h3>
       <div className="table-head">
         <Table className="table" responsive>
-          <thead >
+          <thead>
             <tr>
               <th>Category</th>
               <th>Description</th>

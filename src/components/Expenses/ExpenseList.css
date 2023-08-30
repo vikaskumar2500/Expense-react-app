@@ -5,12 +5,13 @@
   padding: 1rem 2rem;
   margin-bottom: 2rem;
   margin-top: 2rem;
-  
+  background-color: #e8e8e8 !important;
 }
 
 .table-head {
   overflow-y: scroll;
   height: 19rem;
+  background-color: #e8e8e8 !important;
 }
 
 .table-head::-webkit-scrollbar {
@@ -20,6 +21,7 @@
 .expenses-title {
   font-size: 1.1rem;
   font-weight: 600;
+  background-color: #e8e8e8 !important;
 }
 
 .expense-container h3 {
