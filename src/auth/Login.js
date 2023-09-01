@@ -14,10 +14,11 @@ import {
 } from "firebase/auth";
 import { NavLink, useHistory } from "react-router-dom";
 
+
 import "./Login.css";
 import { auth } from "../Firebase";
 import { authActions } from "../store/store";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,6 +29,7 @@ const Login = () => {
 
   const history = useHistory();
 
+  const isAuthenticated = useSelector(state=> state.auth.isAuthenticated);
   // redux used.
   const dispatch = useDispatch();
 
@@ -53,6 +55,7 @@ const Login = () => {
 
         if (credential.user.emailVerified) {
           dispatch(authActions.login());
+          localStorage.setItem("isLoggedIn", JSON.stringify(isAuthenticated));
           // onLogin(true);
           history.push(`/daily-expenses-form`);
 

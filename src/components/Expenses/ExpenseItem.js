@@ -5,6 +5,7 @@ import { expenseActions } from "../../store/store";
 
 const ExpenseItem = (props) => {
   const { expense } = props;
+  // console.log(expense);
   const dispatch = useDispatch();
 
   const fetchedExpenses = async (id) => {
@@ -13,23 +14,24 @@ const ExpenseItem = (props) => {
         "https://expense8-react-default-rtdb.asia-southeast1.firebasedatabase.app/expenses.json"
       );
       const data = await response.json();
+      // console.log(data);
       if (!response.ok) throw new Error(data.error);
-      const responseKeys = Object.keys(data);
-      const targetKey = responseKeys.find((key) => data[key].id === id);
-      // console.log(data[targetKey]);
-      if(!targetKey) return
-      const resObject = { targetExpense: data[targetKey], targetKey };
-      return resObject;
+
+      const targetIndex = data.expenses.findIndex(
+        (expense) => expense.id === id
+      );
+      return targetIndex;
     } catch (error) {
       console.log(error.message);
       alert(error.message);
     }
   };
 
-  const deleteExpenseFromFirebase = async (key) => {
+  const deleteExpenseFromFirebase = async (id) => {
+    console.log(id);
     try {
       await fetch(
-        `https://expense8-react-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${key}.json`,
+        `https://expense8-react-default-rtdb.asia-southeast1.firebasedatabase.app/expenses/${id}.json`,
         {
           method: "DELETE",
           headers: {
@@ -38,7 +40,6 @@ const ExpenseItem = (props) => {
         }
       );
     } catch (error) {
-      console.log(error.message);
       alert(error.message);
     }
   };
@@ -50,23 +51,23 @@ const ExpenseItem = (props) => {
     // deleteExpense by redux.
     dispatch(expenseActions.deleteExpense(id));
 
-    const responseData = await fetchedExpenses(id);
-    if(responseData) {
-      const { targetKey } = responseData;
-      deleteExpenseFromFirebase(targetKey);
+    try {
+      const targetIndex = await fetchedExpenses(id);
+      deleteExpenseFromFirebase(targetIndex);
+    } catch (error) {
+      alert(error.message);
     }
   };
 
   const deleteButtonHandler = async (id) => {
     // deleted by using redux.
     dispatch(expenseActions.deleteExpense(id));
-
-    const responseData = await fetchedExpenses(id);
-    if(responseData) {
-      const { targetKey } = responseData;
-      deleteExpenseFromFirebase(targetKey);
+    try {
+      const targetIndex = await fetchedExpenses(id);
+      deleteExpenseFromFirebase(targetIndex);
+    } catch (error) {
+      alert(error.message);
     }
-    
   };
 
   return (

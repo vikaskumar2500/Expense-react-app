@@ -13,6 +13,8 @@ const NavBar = () => {
   const [isDarkTheme, setIsDarkTheme] = useState(true);
   const history = useHistory();
   const expenses = useSelector((state) => state.expense.expenses);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const totalPrice = useSelector((state) => state.expense.totalPrice);
 
   const dispatch = useDispatch();
 
@@ -20,7 +22,8 @@ const NavBar = () => {
     signOut(auth)
       .then((credential) => {
         history.push("/signup");
-        localStorage.removeItem(auth?.currentUser.email);
+        localStorage.removeItem(auth?.currentUser?.email);
+        localStorage.removeItem("isLoggedIn");
         dispatch(authActions.logout());
       })
       .catch((error) => alert(error.message));
@@ -59,13 +62,17 @@ const NavBar = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav" className="nav-collapse">
           <Nav className="me-auto">
-            <NavLink to={`/daily-expenses-form`}>Daily Expenses</NavLink>
+            {isAuthenticated && (
+              <NavLink to={`/daily-expenses-form`}>Daily Expenses</NavLink>
+            )}
 
-            <NavLink to="/profile">Profile</NavLink>
+            {isAuthenticated && <NavLink to="/profile">Profile</NavLink>}
             <div className="premium-dropdown">
-              <Button variant="outline-warning" onClick={handlePremiumToggle}>
-                Activate Premium
-              </Button>
+              {isAuthenticated && totalPrice >= 10000 && (
+                <Button variant="outline-warning" onClick={handlePremiumToggle}>
+                  Activate Premium
+                </Button>
+              )}
               {showPremium && (
                 <div className="premium-dropdown-content d-flex mb-2">
                   <Button
@@ -87,18 +94,22 @@ const NavBar = () => {
             </div>
           </Nav>
           <Nav>
-            <NavLink to="/" exact>
-              Signup
-            </NavLink>
-            <NavLink to="/login">Login</NavLink>
+            {!isAuthenticated && (
+              <NavLink to="/" exact>
+                Signup
+              </NavLink>
+            )}
+            {!isAuthenticated && <NavLink to="/login">Login</NavLink>}
           </Nav>
-          <Button
-            variant="outline-danger"
-            className="logout"
-            onClick={logoutHandler}
-          >
-            Logout
-          </Button>
+          {isAuthenticated && (
+            <Button
+              variant="outline-danger"
+              className="logout"
+              onClick={logoutHandler}
+            >
+              Logout
+            </Button>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>

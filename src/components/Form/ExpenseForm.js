@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { expenseActions } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 
-const ExpenseForm = () => {
+const ExpenseForm = ({value}) => {
   const moneyInputRef = useRef();
   const descriptionInputRef = useRef();
   const categoryInputRef = useRef();
@@ -32,28 +32,10 @@ const ExpenseForm = () => {
 
     // addExpense by using redux.🤨
     dispatch(expenseActions.addExpense([expense]));
-    try {
-      const response = await fetch(
-        "https://expense8-react-default-rtdb.asia-southeast1.firebasedatabase.app/expenses.json",
-        {
-          method: "POST",
-          body: JSON.stringify(expense),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
-      // console.log(data);
 
-      moneyInputRef.current.value = "";
-      descriptionInputRef.current.value = "";
-      categoryInputRef.current.value = "default";
-    } catch (error) {
-      console.log(error.message);
-      alert(error.message);
-    }
+    moneyInputRef.current.value = "";
+    descriptionInputRef.current.value = "";
+    categoryInputRef.current.value = "default";
   };
 
   return (
@@ -96,6 +78,7 @@ const ExpenseForm = () => {
           <option value="petrol">Petrol</option>
           <option value="salary">Salary</option>
           <option value="clothes">Clothes</option>
+          <option value="Movies">Movies</option>
         </Form.Select>
       </FormGroup>
 
