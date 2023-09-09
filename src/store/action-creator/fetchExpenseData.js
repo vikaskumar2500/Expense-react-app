@@ -3,9 +3,9 @@ import { expenseActions } from "../store";
 const fetchExpenseData = () => {
   const email = localStorage.getItem("userEmail");
   const modifiedEmail = email
-    .replace("@gmail.com", "")
-    .replace(".", "")
-    .replace("_", "");
+    ?.replace("@gmail.com", "")
+    ?.replace(".", "")
+    ?.replace("_", "");
   return async (dispatch) => {
     const fetchData = async () => {
       const response = await fetch(

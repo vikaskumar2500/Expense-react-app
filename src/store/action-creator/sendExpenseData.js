@@ -1,9 +1,9 @@
 const sendExpenseData = (expenses) => {
   const email = localStorage.getItem("userEmail");
   const modifiedEmail = email
-    .replace("@gmail.com", "")
-    .replace(".", "")
-    .replace("_", "");
+    ?.replace("@gmail.com", "")
+    ?.replace(".", "")
+    ?.replace("_", "");
   // console.log(modifiedEmail);
   return async (dispatch) => {
     const sendData = async () => {
