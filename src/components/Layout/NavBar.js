@@ -14,16 +14,15 @@ const NavBar = () => {
   const history = useHistory();
   const expenses = useSelector((state) => state.expense.expenses);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const totalPrice = useSelector((state) => state.expense.totalPrice);
 
   const dispatch = useDispatch();
 
   const logoutHandler = () => {
     signOut(auth)
       .then((credential) => {
-        history.push("/signup");
-        localStorage.removeItem(auth?.currentUser?.email);
+        history.push("/login");
         localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("userEmail");
         dispatch(authActions.logout());
       })
       .catch((error) => alert(error.message));
@@ -66,18 +65,26 @@ const NavBar = () => {
               <NavLink to={`/daily-expenses-form`}>Daily Expenses</NavLink>
             )}
 
-            {isAuthenticated && <NavLink to="/profile">Profile</NavLink>}
+            {isAuthenticated && (
+              <NavLink to="/profile" title="please complete your profile!">
+                Profile
+              </NavLink>
+            )}
             <div className="premium-dropdown">
-              {isAuthenticated && totalPrice >= 10000 && (
+              {isAuthenticated && (
                 <Button variant="outline-warning" onClick={handlePremiumToggle}>
                   Activate Premium
                 </Button>
               )}
               {showPremium && (
-                <div className="premium-dropdown-content d-flex mb-2">
+                <div
+                  className="premium-dropdown-content d-flex mb-2"
+                  title="To close it click on the premium button again!"
+                >
                   <Button
                     variant={isDarkTheme ? "secondary" : "light"}
                     className="mb-2 my-3"
+                    title="Change your theme"
                     onClick={toggleButtonHandler}
                   >
                     {isDarkTheme ? "dark theme" : "light theme"}
@@ -85,6 +92,7 @@ const NavBar = () => {
                   <Button
                     variant="primary"
                     className="mb-2 text-decoration-underline"
+                    title="Download your expenses data"
                     onClick={handleDownload}
                   >
                     Download .csv

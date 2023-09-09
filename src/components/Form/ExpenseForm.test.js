@@ -1,4 +1,4 @@
-import { screen, render as rltRender, fireEvent } from "@testing-library/react";
+import { screen, render as rltRender } from "@testing-library/react";
 import ExpenseForm from "./ExpenseForm";
 import { Provider } from "react-redux";
 import store from "../../store/store";

@@ -26,7 +26,7 @@ const UpdateProfileForm = (props) => {
   const photoUrlInputRef = useRef();
 
   const history = useHistory();
-  console.log(user);
+  // console.log(user);
   useEffect(()=> {
     onAuthStateChanged(auth, currentUser=> {
       setCurrentUser(currentUser);

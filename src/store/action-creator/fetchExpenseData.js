@@ -1,17 +1,21 @@
 import { expenseActions } from "../store";
 
 const fetchExpenseData = () => {
+  const email = localStorage.getItem("userEmail");
+  const modifiedEmail = email
+    .replace("@gmail.com", "")
+    .replace(".", "")
+    .replace("_", "");
   return async (dispatch) => {
     const fetchData = async () => {
       const response = await fetch(
-        "https://expense8-react-default-rtdb.asia-southeast1.firebasedatabase.app/expenses.json"
+        `https://expense8-react-default-rtdb.asia-southeast1.firebasedatabase.app/${modifiedEmail}/expenses.json`
       );
 
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
 
-      // console.log(data);
-      return data.expenses || [];
+      return data?.expenses || [];
     };
 
     try {

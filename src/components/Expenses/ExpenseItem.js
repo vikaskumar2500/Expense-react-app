@@ -15,9 +15,9 @@ const ExpenseItem = (props) => {
       );
       const data = await response.json();
       // console.log(data);
-      if (!response.ok) throw new Error(data.error);
+      if (!response.ok) throw new Error(data?.error);
 
-      const targetIndex = data.expenses.findIndex(
+      const targetIndex = data?.expenses.findIndex(
         (expense) => expense.id === id
       );
       return targetIndex;

@@ -44,7 +44,7 @@ const ExpenseForm = ({value}) => {
       onSubmit={formSubmitHandler}
     >
       <h3>Daily expenses</h3>
-      <FormGroup className="form-group">
+      <FormGroup className="form-group"> 
         <FormLabel htmlFor="spent-money">Spent money</FormLabel>
         <Form.Control
           type="number"

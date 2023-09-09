@@ -16,7 +16,7 @@
   padding-bottom: 1rem;
   border-bottom: 2px solid rgb(212, 181, 181);
 }
-.profile .row div a{
+.profile .row div a {
   font-size: 1rem !important;
   color: blue;
 }
@@ -43,6 +43,7 @@
   font-size: 0.9rem;
   font-style: italic;
 }
+
 .cancel-profile {
   position: absolute;
   top: 0;

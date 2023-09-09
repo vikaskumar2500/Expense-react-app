@@ -10,13 +10,10 @@ const VerificationPending = () => {
     const checkVerificationStatus = async () => {
       const user = auth.currentUser;
 
-      const token = await user?.getIdToken();
-      console.log(token);
       if (user) {
         await user.reload(); // Refresh the user data
         setTime((prev) => prev + 1);
         if (user.emailVerified) {
-          localStorage.setItem(token, JSON.stringify(user));
           history.push("/login");
         }
       }
